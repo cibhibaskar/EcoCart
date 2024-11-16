@@ -7,7 +7,6 @@ from django.dispatch import receiver
 
 from Auth.models import User
 
-
 class Product(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField()
@@ -51,3 +50,25 @@ def set_expiry_date(sender, instance, created, **kwargs):
         Product.objects.filter(id=instance.id).update(
             expiry_date=instance.created_at + timedelta(days=instance.expiry)
         )
+
+
+class InsightProduct(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    carbon_footprint = models.FloatField()  # in kg CO2
+    water_footprint = models.FloatField()  # in liters
+    energy_consumption = models.FloatField()  # in kWh
+    chemical_emissions = models.FloatField()  # in kg
+    waste_recycling_rate = models.FloatField()  # percentage
+
+    def __str__(self):
+        return f"Impact for {self.product.name}"
+
+# models.py
+
+class Sale(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='sales')
+    quantity = models.IntegerField()
+    date_sold = models.DateTimeField()
+
+    def __str__(self):
+        return f"Sale of {self.product.name} on {self.date_sold}"

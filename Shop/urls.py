@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import clear_search_history, home, product_detail, product_list, create_product, edit_product, delete_product, manage_reviews, delete_review ,edit_review
+from .views import clear_search_history, home, product_detail, product_list, create_product, edit_product, delete_product, manage_reviews, delete_review ,edit_review, environmental_dashboard
 
 app_name = 'Shop'
 
@@ -18,5 +18,6 @@ urlpatterns = [
     path('manage_reviews/',manage_reviews, name='manage_reviews'),
     path('edit/<int:review_id>/', edit_review, name='edit_review'),
     path('delete/<int:review_id>/', delete_review, name='delete_review'),
+    path('dashboard/', environmental_dashboard, name='environmental_impact_dashboard'),
 ]
 
